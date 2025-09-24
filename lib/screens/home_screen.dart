@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'login_screen.dart';
 import 'homescreens/profile_screen.dart';
 import 'homescreens/settings_screen.dart';
-import 'expense_list_screen.dart'; // <-- IMPORT BARU
+import 'expense_list_screen.dart';
+import 'advanced_expense_list_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -13,13 +14,28 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Home'),
         backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
+                (Route<dynamic> route) => false,
+              );
+            },
+          ),
+        ],
       ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
             const DrawerHeader(
-              decoration: BoxDecoration(color: Colors.blue),
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -29,14 +45,23 @@ class HomeScreen extends StatelessWidget {
                     child: Icon(Icons.person, size: 40, color: Colors.blue),
                   ),
                   SizedBox(height: 10),
-                  Text('Welcome User!', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+                  Text(
+                    'Welcome User!',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ],
               ),
             ),
             ListTile(
               leading: const Icon(Icons.home),
               title: const Text('Home'),
-              onTap: () => Navigator.pop(context),
+              onTap: () {
+                Navigator.pop(context);
+              },
             ),
             ListTile(
               leading: const Icon(Icons.person),
@@ -47,6 +72,16 @@ class HomeScreen extends StatelessWidget {
               },
             ),
             ListTile(
+              leading: const Icon(Icons.message),
+              title: const Text('Messages'),
+              onTap: () {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Fitur Pesan belum tersedia')),
+                );
+              },
+            ),
+            ListTile(
               leading: const Icon(Icons.settings),
               title: const Text('Settings'),
               onTap: () {
@@ -54,16 +89,31 @@ class HomeScreen extends StatelessWidget {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsScreen()));
               },
             ),
-            // --- MODIFIKASI: Tambahkan item baru di Drawer ---
+            ListTile(
+              leading: const Icon(Icons.help),
+              title: const Text('Help'),
+              onTap: () {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Fitur Bantuan belum tersedia')),
+                );
+              },
+            ),
+            const Divider(),
             ListTile(
               leading: const Icon(Icons.analytics, color: Colors.indigo),
               title: const Text('Analisis Pengeluaran'),
               onTap: () {
-                Navigator.pop(context); // Tutup drawer
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const ExpenseListScreen()),
-                );
+                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const ExpenseListScreen()));
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.filter_list, color: Colors.deepPurple),
+              title: const Text('Pengeluaran (Advanced)'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const AdvancedExpenseListScreen()));
               },
             ),
             const Divider(),
@@ -86,7 +136,14 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Dashboard', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.blue)),
+            const Text(
+              'Dashboard',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.blue,
+              ),
+            ),
             const SizedBox(height: 20),
             Expanded(
               child: GridView.count(
@@ -95,17 +152,26 @@ class HomeScreen extends StatelessWidget {
                 mainAxisSpacing: 16,
                 children: [
                   _buildDashboardCard('Profile', Icons.person, Colors.green, context, () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfileScreen()));
+                     Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfileScreen()));
+                  }),
+                  _buildDashboardCard('Messages', Icons.message, Colors.orange, context, () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Fitur Pesan belum tersedia')),
+                    );
                   }),
                   _buildDashboardCard('Settings', Icons.settings, Colors.purple, context, () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsScreen()));
+                     Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsScreen()));
                   }),
-                  // --- MODIFIKASI: Tambahkan card baru di GridView ---
+                  _buildDashboardCard('Help', Icons.help, Colors.red, context, () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Fitur Bantuan belum tersedia')),
+                    );
+                  }),
                   _buildDashboardCard('Analisis', Icons.analytics, Colors.indigo, context, () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => const ExpenseListScreen()));
                   }),
-                   _buildDashboardCard('Messages', Icons.message, Colors.orange, context, () {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Messages card tapped!')));
+                  _buildDashboardCard('Advanced', Icons.filter_list, Colors.deepPurple, context, () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const AdvancedExpenseListScreen()));
                   }),
                 ],
               ),
@@ -128,7 +194,13 @@ class HomeScreen extends StatelessWidget {
             children: [
               Icon(icon, size: 48, color: color),
               const SizedBox(height: 12),
-              Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ],
           ),
         ),
