@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'login_screen.dart'; // Import LoginScreen
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -9,10 +10,17 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Home'),
         backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
         actions: [
           IconButton(
             onPressed: () {
-              // Handle logout
+              // MODIFIKASI: Logika logout
+              // Kembali ke LoginScreen dan hapus semua riwayat halaman.
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
+                (Route<dynamic> route) => false,
+              );
             },
             icon: Icon(Icons.logout),
           ),
@@ -50,6 +58,7 @@ class HomeScreen extends StatelessWidget {
               leading: Icon(Icons.home),
               title: Text('Home'),
               onTap: () {
+                // Tutup drawer karena kita sudah di halaman Home
                 Navigator.pop(context);
               },
             ),
@@ -57,14 +66,16 @@ class HomeScreen extends StatelessWidget {
               leading: Icon(Icons.person),
               title: Text('Profile'),
               onTap: () {
-                Navigator.pop(context);
+                // Contoh: bisa ditambahkan navigasi ke halaman profile
+                Navigator.pop(context); // Tutup drawer dulu
               },
             ),
             ListTile(
               leading: Icon(Icons.settings),
               title: Text('Settings'),
               onTap: () {
-                Navigator.pop(context);
+                // Contoh: bisa ditambahkan navigasi ke halaman settings
+                Navigator.pop(context); // Tutup drawer dulu
               },
             ),
             Divider(),
@@ -72,7 +83,12 @@ class HomeScreen extends StatelessWidget {
               leading: Icon(Icons.logout),
               title: Text('Logout'),
               onTap: () {
-                // Handle logout
+                // MODIFIKASI: Logika logout yang sama dengan di AppBar
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                  (Route<dynamic> route) => false,
+                );
               },
             ),
           ],
@@ -98,10 +114,10 @@ class HomeScreen extends StatelessWidget {
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
                 children: [
-                  _buildDashboardCard('Profile', Icons.person, Colors.green),
-                  _buildDashboardCard('Messages', Icons.message, Colors.orange),
-                  _buildDashboardCard('Settings', Icons.settings, Colors.purple),
-                  _buildDashboardCard('Help', Icons.help, Colors.red),
+                  _buildDashboardCard('Profile', Icons.person, Colors.green, context),
+                  _buildDashboardCard('Messages', Icons.message, Colors.orange, context),
+                  _buildDashboardCard('Settings', Icons.settings, Colors.purple, context),
+                  _buildDashboardCard('Help', Icons.help, Colors.red, context),
                 ],
               ),
             ),
@@ -111,12 +127,16 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildDashboardCard(String title, IconData icon, Color color) {
+  Widget _buildDashboardCard(String title, IconData icon, Color color, BuildContext context) {
     return Card(
       elevation: 4,
       child: InkWell(
         onTap: () {
-          // Handle card tap
+          // MODIFIKASI: Menampilkan pesan sederhana saat card ditekan.
+          // Ini bisa diganti dengan navigasi ke halaman lain.
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('$title card tapped!')),
+          );
         },
         child: Container(
           padding: EdgeInsets.all(16),
