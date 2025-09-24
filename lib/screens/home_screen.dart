@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'login_screen.dart'; // Import LoginScreen
+import 'login_screen.dart';
+import 'homescreens/profile_screen.dart';
+import 'homescreens/settings_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -8,21 +10,20 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: const Text('Home'),
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
         actions: [
           IconButton(
+            icon: const Icon(Icons.logout),
             onPressed: () {
-              // MODIFIKASI: Logika logout
-              // Kembali ke LoginScreen dan hapus semua riwayat halaman.
+              // Kembali ke Login dan hapus semua riwayat halaman.
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (context) => const LoginScreen()),
                 (Route<dynamic> route) => false,
               );
             },
-            icon: Icon(Icons.logout),
           ),
         ],
       ),
@@ -30,7 +31,7 @@ class HomeScreen extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            DrawerHeader(
+            const DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
@@ -55,35 +56,41 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Home'),
+              leading: const Icon(Icons.home),
+              title: const Text('Home'),
               onTap: () {
-                // Tutup drawer karena kita sudah di halaman Home
+                // Tutup drawer karena sudah di halaman Home
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              leading: Icon(Icons.person),
-              title: Text('Profile'),
+              leading: const Icon(Icons.person),
+              title: const Text('Profile'),
               onTap: () {
-                // Contoh: bisa ditambahkan navigasi ke halaman profile
                 Navigator.pop(context); // Tutup drawer dulu
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ProfileScreen()),
+                );
               },
             ),
             ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Settings'),
+              leading: const Icon(Icons.settings),
+              title: const Text('Settings'),
               onTap: () {
-                // Contoh: bisa ditambahkan navigasi ke halaman settings
                 Navigator.pop(context); // Tutup drawer dulu
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SettingsScreen()),
+                );
               },
             ),
-            Divider(),
+            const Divider(),
             ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Logout'),
+              leading: const Icon(Icons.logout),
+              title: const Text('Logout'),
               onTap: () {
-                // MODIFIKASI: Logika logout yang sama dengan di AppBar
+                // Logika logout yang sama dengan di AppBar
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => const LoginScreen()),
@@ -95,11 +102,11 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Dashboard',
               style: TextStyle(
                 fontSize: 24,
@@ -107,17 +114,25 @@ class HomeScreen extends StatelessWidget {
                 color: Colors.blue,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Expanded(
               child: GridView.count(
                 crossAxisCount: 2,
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
                 children: [
-                  _buildDashboardCard('Profile', Icons.person, Colors.green, context),
-                  _buildDashboardCard('Messages', Icons.message, Colors.orange, context),
-                  _buildDashboardCard('Settings', Icons.settings, Colors.purple, context),
-                  _buildDashboardCard('Help', Icons.help, Colors.red, context),
+                  _buildDashboardCard('Profile', Icons.person, Colors.green, context, () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfileScreen()));
+                  }),
+                  _buildDashboardCard('Messages', Icons.message, Colors.orange, context, () {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Messages card tapped!')));
+                  }),
+                  _buildDashboardCard('Settings', Icons.settings, Colors.purple, context, () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsScreen()));
+                  }),
+                  _buildDashboardCard('Help', Icons.help, Colors.red, context, () {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Help card tapped!')));
+                  }),
                 ],
               ),
             ),
@@ -127,30 +142,21 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildDashboardCard(String title, IconData icon, Color color, BuildContext context) {
+  Widget _buildDashboardCard(String title, IconData icon, Color color, BuildContext context, VoidCallback onTap) {
     return Card(
       elevation: 4,
       child: InkWell(
-        onTap: () {
-          // MODIFIKASI: Menampilkan pesan sederhana saat card ditekan.
-          // Ini bisa diganti dengan navigasi ke halaman lain.
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('$title card tapped!')),
-          );
-        },
+        onTap: onTap, // Gunakan fungsi onTap yang diberikan
         child: Container(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(icon, size: 48, color: color),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               Text(
                 title,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             ],
           ),
@@ -159,3 +165,4 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+
