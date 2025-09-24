@@ -4,6 +4,7 @@ import 'homescreens/profile_screen.dart';
 import 'homescreens/settings_screen.dart';
 import 'expense_list_screen.dart';
 import 'advanced_expense_list_screen.dart';
+import 'looping_examples_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -116,6 +117,17 @@ class HomeScreen extends StatelessWidget {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => const AdvancedExpenseListScreen()));
               },
             ),
+            ListTile(
+              leading: const Icon(Icons.loop, color: Colors.teal),
+              title: const Text('Latihan Looping'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoopingExamplesScreen()),
+                );
+              },
+            ),
             const Divider(),
             ListTile(
               leading: const Icon(Icons.logout),
@@ -131,22 +143,27 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Dashboard',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.blue,
+      // --- PERBAIKAN UTAMA ADA DI SINI ---
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Dashboard',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue,
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-            Expanded(
-              child: GridView.count(
+              const SizedBox(height: 20),
+              GridView.count(
+                // Properti ini penting agar GridView tidak bentrok dengan SingleChildScrollView
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                // --- KEMBALIKAN JADI 2 KOLOM AGAR RAPI ---
                 crossAxisCount: 2,
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
@@ -173,10 +190,14 @@ class HomeScreen extends StatelessWidget {
                   _buildDashboardCard('Advanced', Icons.filter_list, Colors.deepPurple, context, () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => const AdvancedExpenseListScreen()));
                   }),
+                  // Kartu Looping mungkin akan membuat baris baru, jadi kita letakkan di sini
+                  _buildDashboardCard('Looping', Icons.loop, Colors.teal, context, () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const LoopingExamplesScreen()));
+                  }),
                 ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -185,6 +206,9 @@ class HomeScreen extends StatelessWidget {
   Widget _buildDashboardCard(String title, IconData icon, Color color, BuildContext context, VoidCallback onTap) {
     return Card(
       elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: InkWell(
         onTap: onTap,
         child: Container(
@@ -200,6 +224,7 @@ class HomeScreen extends StatelessWidget {
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
+                textAlign: TextAlign.center,
               ),
             ],
           ),

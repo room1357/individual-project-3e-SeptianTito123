@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart'; // Import package intl
 
 class Expense {
+  final String id;
   final String title;
   final String description;
   final double amount;
@@ -8,6 +9,8 @@ class Expense {
   final String category;
 
   Expense({
+    
+    required this.id,
     required this.title,
     required this.description,
     required this.amount,
@@ -34,6 +37,6 @@ class Expense {
 
   @override
   String toString() {
-    return 'Expense(title: $title, amount: $amount, date: $date, category: $category)';
+    return 'Expense(id: $id, title: $title, amount: $amount, date: $date, category: $category)';
   }
 }

@@ -3,14 +3,14 @@ import '../models/expense_model.dart';
 class ExpenseManager {
   // Data sampel untuk pengujian
   static List<Expense> expenses = [
-    Expense(title: 'Kopi Pagi', description: 'Espresso di cafe', amount: 25000, date: DateTime(2023, 10, 20), category: 'Makanan'),
-    Expense(title: 'Bensin Motor', description: 'Isi Pertamax', amount: 30000, date: DateTime(2023, 10, 20), category: 'Transportasi'),
-    Expense(title: 'Nasi Goreng', description: 'Makan malam', amount: 20000, date: DateTime(2023, 10, 21), category: 'Makanan'),
-    Expense(title: 'Tiket Bioskop', description: 'Nonton film baru', amount: 50000, date: DateTime(2023, 10, 22), category: 'Hiburan'),
-    Expense(title: 'Belanja Bulanan', description: 'Sabun, sampo, dll', amount: 150000, date: DateTime(2023, 11, 1), category: 'Kebutuhan'),
-    Expense(title: 'Paket Data', description: 'Kuota internet', amount: 75000, date: DateTime(2023, 11, 5), category: 'Kebutuhan'),
-    Expense(title: 'Service Motor', description: 'Ganti oli rutin', amount: 80000, date: DateTime(2023, 11, 15), category: 'Transportasi'),
-    Expense(title: 'Kopi Siang', description: 'Americano', amount: 22000, date: DateTime(2023, 11, 15), category: 'Makanan'),
+    Expense(id: 'em1', title: 'Kopi Pagi', description: 'Espresso di cafe', amount: 25000, date: DateTime(2023, 10, 20), category: 'Makanan'),
+    Expense(id: 'em2', title: 'Bensin Motor', description: 'Isi Pertamax', amount: 30000, date: DateTime(2023, 10, 20), category: 'Transportasi'),
+    Expense(id: 'em3', title: 'Nasi Goreng', description: 'Makan malam', amount: 20000, date: DateTime(2023, 10, 21), category: 'Makanan'),
+    Expense(id: 'em4', title: 'Tiket Bioskop', description: 'Nonton film baru', amount: 50000, date: DateTime(2023, 10, 22), category: 'Hiburan'),
+    Expense(id: 'em5', title: 'Belanja Bulanan', description: 'Sabun, sampo, dll', amount: 150000, date: DateTime(2023, 11, 1), category: 'Kebutuhan'),
+    Expense(id: 'em6', title: 'Paket Data', description: 'Kuota internet', amount: 75000, date: DateTime(2023, 11, 5), category: 'Kebutuhan'),
+    Expense(id: 'em7', title: 'Service Motor', description: 'Ganti oli rutin', amount: 80000, date: DateTime(2023, 11, 15), category: 'Transportasi'),
+    Expense(id: 'em8', title: 'Kopi Siang', description: 'Americano', amount: 22000, date: DateTime(2023, 11, 15), category: 'Makanan'),
   ];
 
   // 1. Mendapatkan total pengeluaran per kategori

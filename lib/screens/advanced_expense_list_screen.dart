@@ -12,15 +12,15 @@ class AdvancedExpenseListScreen extends StatefulWidget {
 class _AdvancedExpenseListScreenState extends State<AdvancedExpenseListScreen> {
   // Data sampel yang lebih beragam untuk pengujian
   final List<Expense> expenses = [
-    Expense(title: 'Nasi Padang', description: 'Makan siang kantor', amount: 25000, date: DateTime(2023, 9, 20), category: 'Makanan'),
-    Expense(title: 'Tiket Kereta Api', description: 'Perjalanan ke Bandung', amount: 150000, date: DateTime(2023, 9, 21), category: 'Transportasi'),
-    Expense(title: 'Bayar Listrik', description: 'Tagihan bulanan', amount: 250000, date: DateTime(2023, 9, 22), category: 'Utilitas'),
-    Expense(title: 'Nonton Bioskop', description: 'Film Aksi Terbaru', amount: 50000, date: DateTime(2023, 9, 23), category: 'Hiburan'),
-    Expense(title: 'Beli Buku Flutter', description: 'Buku di Gramedia', amount: 120000, date: DateTime(2023, 9, 24), category: 'Pendidikan'),
-    Expense(title: 'Kopi Susu', description: 'Ngopi sore', amount: 22000, date: DateTime(2023, 9, 24), category: 'Makanan'),
-    Expense(title: 'Gojek ke Kantor', description: 'Pergi kerja', amount: 15000, date: DateTime(2023, 9, 25), category: 'Transportasi'),
-  ];
-  
+      Expense(id: 'adv1', title: 'Nasi Padang', description: 'Makan siang kantor', amount: 25000, date: DateTime(2023, 9, 20), category: 'Makanan'),
+      Expense(id: 'adv2', title: 'Tiket Kereta Api', description: 'Perjalanan ke Bandung', amount: 150000, date: DateTime(2023, 9, 21), category: 'Transportasi'),
+      Expense(id: 'adv3', title: 'Bayar Listrik', description: 'Tagihan bulanan', amount: 250000, date: DateTime(2023, 9, 22), category: 'Utilitas'),
+      Expense(id: 'adv4', title: 'Nonton Bioskop', description: 'Film Aksi Terbaru', amount: 50000, date: DateTime(2023, 9, 23), category: 'Hiburan'),
+      Expense(id: 'adv5', title: 'Beli Buku Flutter', description: 'Buku di Gramedia', amount: 120000, date: DateTime(2023, 9, 24), category: 'Pendidikan'),
+      Expense(id: 'adv6', title: 'Kopi Susu', description: 'Ngopi sore', amount: 22000, date: DateTime(2023, 9, 24), category: 'Makanan'),
+      Expense(id: 'adv7', title: 'Gojek ke Kantor', description: 'Pergi kerja', amount: 15000, date: DateTime(2023, 9, 25), category: 'Transportasi'),
+    ];  
+    
   List<Expense> filteredExpenses = [];
   String selectedCategory = 'Semua';
   final TextEditingController searchController = TextEditingController();
