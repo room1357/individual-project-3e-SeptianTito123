@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../logic/looping_examples.dart';
-import '../models/expense_model.dart';
 
 class LoopingExamplesScreen extends StatelessWidget {
   const LoopingExamplesScreen({super.key});

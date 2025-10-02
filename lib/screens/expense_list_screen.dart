@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../logic/expense_manager.dart';
-import '../../models/expense_model.dart';
+import '../logic/expense_manager.dart';
+import '../models/expense_model.dart';
 
 class ExpenseListScreen extends StatelessWidget {
   const ExpenseListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Ambil data dan hasil kalkulasi dari ExpenseManager
     final allExpenses = ExpenseManager.expenses;
     final totalByCategory = ExpenseManager.getTotalByCategory(allExpenses);
     final highestExpense = ExpenseManager.getHighestExpense(allExpenses);
@@ -25,7 +24,6 @@ class ExpenseListScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         children: [
           _buildSectionTitle('[1] Total per Kategori'),
-          // Tampilkan total per kategori
           ...totalByCategory.entries.map((entry) {
             return Card(
               child: ListTile(
@@ -33,7 +31,7 @@ class ExpenseListScreen extends StatelessWidget {
                 trailing: Text('Rp ${entry.value.toStringAsFixed(0)}', style: const TextStyle(fontWeight: FontWeight.bold)),
               ),
             );
-          }).toList(),
+          }),
 
           const SizedBox(height: 20),
           _buildSectionTitle('[2] Pengeluaran Tertinggi'),
@@ -47,9 +45,9 @@ class ExpenseListScreen extends StatelessWidget {
 
           const SizedBox(height: 20),
           _buildSectionTitle('[3] Pengeluaran Bulan November 2023'),
-          // Tampilkan pengeluaran November
           ...novemberExpenses.map((expense) => Card(
-            child: ListTile(title: Text(expense.title), trailing: Text(expense.category)),
+            // --- PERBAIKAN: Tampilkan nama kategori dari objek ---
+            child: ListTile(title: Text(expense.title), trailing: Text(expense.category.name)),
           )).toList(),
           
           const SizedBox(height: 20),
@@ -72,7 +70,6 @@ class ExpenseListScreen extends StatelessWidget {
     );
   }
 
-  // Widget helper untuk membuat judul seksi
   Widget _buildSectionTitle(String title) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
@@ -83,3 +80,4 @@ class ExpenseListScreen extends StatelessWidget {
     );
   }
 }
+
